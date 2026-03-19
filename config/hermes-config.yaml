@@ -1,0 +1,70 @@
+# Big Iron — Hermes Agent Configuration
+# ─────────────────────────────────────────────────────────────────────────────
+# Install location: ~/.hermes/config.yaml
+# Installed by:     scripts/setup.sh  (backs up any existing config first)
+# Docs:             https://hermes-agent.nousresearch.com/docs/config
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ---------------------------------------------------------------------------
+# LLM Backend
+# ---------------------------------------------------------------------------
+model:
+  provider: openrouter           # options: openrouter, nous_portal, anthropic, openai
+  name: anthropic/claude-sonnet-4-5
+  temperature: 0.2
+  max_tokens: 8192
+
+# Swap provider here — no other config changes needed.
+# OpenRouter example:   provider: openrouter  / name: anthropic/claude-sonnet-4-5
+# Nous Portal example:  provider: nous_portal  / name: Hermes-3-Llama-3.1-70B
+# Anthropic direct:     provider: anthropic    / name: claude-sonnet-4-5-20251001
+
+# ---------------------------------------------------------------------------
+# MCP Servers
+# ---------------------------------------------------------------------------
+mcp_servers:
+  supermodel:
+    command: "supermodel-mcp"
+    args: []
+    timeout: 15000          # ms — graph jobs on large codebases can take time
+    tools:
+      include:
+        - get_call_graph
+        - get_dependency_graph
+        - get_domain_graph
+        - get_parse_graph
+        - query_symbol
+        - get_blast_radius
+        - detect_dead_code
+        - get_graph_diff
+    enabled: true
+
+# ---------------------------------------------------------------------------
+# Cron Jobs
+# ---------------------------------------------------------------------------
+cron:
+  - name: nightly_health_check
+    schedule: "0 2 * * *"   # 02:00 local time, every night
+    task: "Run the health_cron skill on the current project graph"
+    skill: health_cron
+    branch_guard: main       # only runs when on the main branch
+
+# ---------------------------------------------------------------------------
+# Memory
+# ---------------------------------------------------------------------------
+memory:
+  backend: sqlite
+  path: ~/.hermes/memory.db
+  fts: true                  # enable full-text search across sessions
+
+# ---------------------------------------------------------------------------
+# Skills
+# ---------------------------------------------------------------------------
+skills_dir: ~/.hermes/skills
+
+# ---------------------------------------------------------------------------
+# Session
+# ---------------------------------------------------------------------------
+session:
+  history_limit: 100
+  context_window_strategy: graph_first   # prefer graph queries over file loads

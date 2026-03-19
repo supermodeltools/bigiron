@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Temp ZIP archives created by graph_gate.sh / supermodel.sh
+demo/*.zip
+*.zip
+/tmp/sm-gate-*.zip
+/tmp/supermodel-*.zip
+sm_last.json
+/tmp/sm_last.json
+
+# Hermes local state
+.hermes/
+
+# macOS
+.DS_Store
+
+# Editor
+*.swp
+*.swo
+.idea/
+.vscode/
