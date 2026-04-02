@@ -1,3 +1,7 @@
+> **⚠️ Deprecated:** Big Iron was an experimental prototype and is no longer maintained. This functionality has been rebuilt and shipped as [`supermodel factory`](https://github.com/supermodeltools/cli) in the [supermodel CLI](https://github.com/supermodeltools/cli). Please use that instead.
+
+---
+
 ```
         _________
        /  _____  \
